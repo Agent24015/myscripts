@@ -45,11 +45,11 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="azure"
+ZIPNAME="Cosmic"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
-AUTHOR="Panchajanya1999"
+AUTHOR="Agent24015"
 
 # Architecture
 ARCH=arm64
@@ -76,11 +76,11 @@ LINKER=ld.lld
 INCREMENTAL=1
 
 # Push ZIP to Telegram. 1 is YES | 0 is NO(default)
-PTTG=1
+PTTG=0
 	if [ $PTTG = 1 ]
 	then
 		# Set Telegram Chat ID
-		CHATID="-1001231303646"
+		CHATID="-1001462739941"
 	fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
@@ -125,7 +125,7 @@ LOG_DEBUG=0
 
 ## Set defaults first
 DISTRO=$(cat /etc/issue)
-KBUILD_BUILD_HOST=$(uname -a | awk '{print $2}')
+KBUILD_BUILD_HOST="C O S M O S"
 CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 TERM=xterm
 export KBUILD_BUILD_HOST CI_BRANCH TERM
@@ -191,7 +191,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 ##------------------------------------------------------##
 
 exports() {
-	KBUILD_BUILD_USER=$AUTHOR
+	KBUILD_BUILD_USER="someone"
 	SUBARCH=$ARCH
 
 	if [ $COMPILER = "clang" ]
@@ -345,11 +345,9 @@ gen_zip() {
 		java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
 		ZIP_FINAL="$ZIP_FINAL-signed"
 	fi
+	
+	curl bashupload.com -T $ZIP_FINAL.zip
 
-	if [ "$PTTG" = 1 ]
- 	then
-		tg_post_build "$ZIP_FINAL.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
-	fi
 	cd ..
 }
 
